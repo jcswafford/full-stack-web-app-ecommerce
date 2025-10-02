@@ -5,13 +5,12 @@ import { CommonModule, CurrencyPipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-product-list',
-  standalone: true,
-  imports: [CurrencyPipe, CommonModule, RouterLink],
-  //templateUrl: './product-list.component.html',
-  //templateUrl: './product-list-table.component.html',
-  templateUrl: './product-list-grid.component.html',
-  styleUrl: './product-list.component.css'
+    selector: 'app-product-list',
+    imports: [CurrencyPipe, CommonModule, RouterLink],
+    //templateUrl: './product-list.component.html',
+    //templateUrl: './product-list-table.component.html',
+    templateUrl: './product-list-grid.component.html',
+    styleUrl: './product-list.component.css'
 })
 export class ProductListComponent implements OnInit{
 

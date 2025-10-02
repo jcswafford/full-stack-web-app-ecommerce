@@ -5,11 +5,10 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-product-details',
-  standalone: true,
-  imports: [CurrencyPipe, RouterLink],
-  templateUrl: './product-details.component.html',
-  styleUrl: './product-details.component.css'
+    selector: 'app-product-details',
+    imports: [CurrencyPipe, RouterLink],
+    templateUrl: './product-details.component.html',
+    styleUrl: './product-details.component.css'
 })
 export class ProductDetailsComponent {
 
