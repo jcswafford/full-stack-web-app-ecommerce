@@ -3,10 +3,12 @@ import { ProductService } from '../../services/product.service';
 import { Product } from '../../common/product';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
     selector: 'app-product-list',
-    imports: [CurrencyPipe, CommonModule, RouterLink],
+    standalone: true,
+    imports: [CurrencyPipe, CommonModule, RouterLink, NgbModule],
     //templateUrl: './product-list.component.html',
     //templateUrl: './product-list-table.component.html',
     templateUrl: './product-list-grid.component.html',
@@ -19,8 +21,16 @@ export class ProductListComponent implements OnInit{
   currentCategoryName: string = "";
 
   currentCategoryId: number = 1;
+  previousCategoryId: number = 1;
 
   searchMode: boolean = false;
+
+  // properties for pagination
+  thePageNumber: number = 1;
+  thePageSize: number = 5;
+  theTotalElements: number = 0;
+
+  previousKeyword: string = "";
 
   constructor(private productService: ProductService, 
               private route: ActivatedRoute) {}
@@ -62,12 +72,27 @@ export class ProductListComponent implements OnInit{
     }
 
 
+    // Check if the category id is different than previous
+    // Note: Angular will reuse a component if it is currently being viewed
+
+    // if category id is different than preevious
+    // set thePageNumber back to 1
+
+    if (this.previousCategoryId != this.currentCategoryId) {
+      this.thePageNumber = 1;
+    }
+
+    this.previousCategoryId = this.currentCategoryId;
+    console.log(`currentCategoryId=${this.currentCategoryId}, thePageNumber=${this.thePageNumber}`);
+
+
+
+
     // now get the products for the given category id
-    this.productService.getProductList(this.currentCategoryId).subscribe(
-      data => {
-        this.products = data;
-      }
-    )
+    this.productService.getProductListPaginate(this.thePageNumber - 1,
+                                               this.thePageSize,
+                                               this.currentCategoryId)
+                                               .subscribe(this.processResult());
 
   }
 
@@ -75,14 +100,46 @@ export class ProductListComponent implements OnInit{
 
     const theKeyword: string = this.route.snapshot.paramMap.get('keyword')!;
 
+    // if keyword is different than previous, set thePageNumber to 1
+
+    if (this.previousKeyword != theKeyword) {
+      this.thePageNumber = 1;
+    }
+
+    this.previousKeyword = theKeyword;
+
+    console.log(`keyword=${theKeyword}, thePageNumber=${this.thePageNumber}`)
+
     // now search for the products using keyword
 
-    this.productService.searchProducts(theKeyword).subscribe(
-      data => {
-        this.products = data;
-      }
-    )
+    this.productService.searchProductsPaginate(this.thePageNumber - 1, 
+                                               this.thePageSize, 
+                                               theKeyword)
+                                               .subscribe(this.processResult());
 
+  }
+
+  updatePageSize(pageSize: string) {
+
+    this.thePageSize = +pageSize;
+    this.thePageNumber = 1;
+    this.listProducts();
+
+  }
+
+  processResult() {
+    return (data: any) => {
+      this.products = data._embedded.products;
+      this.thePageNumber = data.page.number + 1;
+      this.thePageSize = data.page.size;
+      this.theTotalElements = data.page.totalElements;
+    }
+  }
+
+  addToCart(theProduct: Product) {
+    console.log(`Adding to cart: ${theProduct.name}, ${theProduct.unitPrice}`)
+
+    // TODO .... the rest of the logic
   }
 
 }

@@ -4,14 +4,13 @@ import { ProductListComponent } from './components/product-list/product-list.com
 import {} from '@angular/common/http';
 import { ProductCategoryMenuComponent } from "./components/product-category-menu/product-category-menu.component";
 import { SearchComponent } from './components/search/search.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CartStatusComponent } from './components/cart-status/cart-status.component';
 
 @Component({
     selector: 'app-root',
-    imports: [RouterOutlet, SearchComponent, RouterModule, ProductCategoryMenuComponent,
-        // TODO: `HttpClientModule` should not be imported into a component directly.
-        // Please refactor the code to add `provideHttpClient()` call to the provider list in the
-        // application bootstrap logic and remove the `HttpClientModule` import from this component.
-        HttpClientModule, ProductCategoryMenuComponent],
+    standalone: true,
+    imports: [RouterOutlet, CartStatusComponent, NgbModule, SearchComponent, RouterModule, ProductCategoryMenuComponent, ProductCategoryMenuComponent],
     templateUrl: './app.component.html',
     styleUrl: './app.component.css'
 })

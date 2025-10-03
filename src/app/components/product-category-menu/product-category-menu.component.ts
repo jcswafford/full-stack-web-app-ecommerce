@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-product-category-menu',
+    standalone: true,
     imports: [CommonModule, RouterLink, RouterLinkActive],
     templateUrl: './product-category-menu.component.html',
     styleUrl: './product-category-menu.component.css'

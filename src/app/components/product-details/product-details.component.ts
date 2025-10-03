@@ -6,6 +6,7 @@ import { CurrencyPipe } from '@angular/common';
 
 @Component({
     selector: 'app-product-details',
+    standalone: true,
     imports: [CurrencyPipe, RouterLink],
     templateUrl: './product-details.component.html',
     styleUrl: './product-details.component.css'
