@@ -75,11 +75,23 @@ export class CheckoutComponent {
         )
       }),
       billingAddress: this.formBuilder.group({
-        street: [''],
-        city: [''],
-        country: [''],
-        state: [''],
-        zipCode: ['']
+        street: new FormControl('', 
+          [Validators.required, 
+            Validators.minLength(2), 
+            ShopValidators.notOnlyWhitespace]
+        ),
+        city: new FormControl('', 
+          [Validators.required, 
+            Validators.minLength(2), 
+            ShopValidators.notOnlyWhitespace]
+        ),
+        country: new FormControl('', [Validators.required]),
+        state: new FormControl('', [Validators.required]),
+        zipCode: new FormControl('', 
+          [Validators.required, 
+            Validators.minLength(2), 
+            ShopValidators.notOnlyWhitespace]
+        )
       }),
       creditCard: this.formBuilder.group({
         cardType: [''],
@@ -130,6 +142,12 @@ export class CheckoutComponent {
   get shippingAddressCountry() {return this.checkoutFormGroup.get('shippingAddress.country');}
   get shippingAddressState() {return this.checkoutFormGroup.get('shippingAddress.state');}
   get shippingAddressZipCode() {return this.checkoutFormGroup.get('shippingAddress.zipCode');}
+
+  get billingAddressStreet() {return this.checkoutFormGroup.get('billingAddress.street');}
+  get billingAddressCity() {return this.checkoutFormGroup.get('billingAddress.city');}
+  get billingAddressCountry() {return this.checkoutFormGroup.get('billingAddress.country');}
+  get billingAddressState() {return this.checkoutFormGroup.get('billingAddress.state');}
+  get billingAddressZipCode() {return this.checkoutFormGroup.get('billingAddress.zipCode');}
 
   onSubmit() {
 
