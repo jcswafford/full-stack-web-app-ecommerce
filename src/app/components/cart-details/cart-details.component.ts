@@ -2,10 +2,12 @@ import { Component } from '@angular/core';
 import { CartItem } from '../../common/cart-item';
 import { CartService } from '../../services/cart.service';
 import { CurrencyPipe, NgFor } from '@angular/common';
+import { RouterLink } from '@angular/router';
+
 
 @Component({
   selector: 'app-cart-details',
-  imports: [NgFor, CurrencyPipe],
+  imports: [NgFor, CurrencyPipe, RouterLink],
   templateUrl: './cart-details.component.html',
   styleUrl: './cart-details.component.css'
 })

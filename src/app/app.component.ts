@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { RouterOutlet, RouterModule } from '@angular/router';
-import { ProductListComponent } from './components/product-list/product-list.component';
 import {} from '@angular/common/http';
 import { ProductCategoryMenuComponent } from "./components/product-category-menu/product-category-menu.component";
 import { SearchComponent } from './components/search/search.component';
@@ -10,7 +9,9 @@ import { CartStatusComponent } from './components/cart-status/cart-status.compon
 @Component({
     selector: 'app-root',
     standalone: true,
-    imports: [RouterOutlet, CartStatusComponent, NgbModule, SearchComponent, RouterModule, ProductCategoryMenuComponent, ProductCategoryMenuComponent],
+    imports: [RouterOutlet, CartStatusComponent, NgbModule, SearchComponent, RouterModule, 
+              ProductCategoryMenuComponent, ProductCategoryMenuComponent
+    ],
     templateUrl: './app.component.html',
     styleUrl: './app.component.css'
 })
