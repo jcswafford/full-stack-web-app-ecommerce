@@ -93,10 +93,24 @@
                         <div class="col-md-9">
                             <div class="input-space">
                                 <select formControlName="country" (change)="getStates('shippingAddress')">
-                                    <option *ngFor="let country of countries" [ngValue]="country">
-                                        {{ country.name }}
-                                    </option>
+                                    @for (country of countries; track country) {
+                                        <option [ngValue]="country">
+                                            {{ country.name }}
+                                        </option>
+                                    }
                                 </select>
+
+                                @if (shippingAddressCountry.invalid && (shippingAddressCountry.dirty || shippingAddressCountry.touched)) {
+
+                                    <div class="alert alert-danger mt-1">
+
+                                        @if (shippingAddressCountry!.errors!['required']) {
+                                            <div>Country is required</div>
+                                        }
+
+                                    </div>
+
+                                }
                             </div>
                         </div>
                     </div>
@@ -106,6 +120,18 @@
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="street" type="text">
+
+                                @if (shippingAddressStreet.invalid && (shippingAddressStreet.dirty || shippingAddressStreet.touched)) {
+
+                                    <div class="alert alert-danger mt-1">
+
+                                        @if (shippingAddressStreet!.errors!['required'] || shippingAddressStreet!.errors!['notOnlyWhiteSpace']) {
+                                            <div>Street is required</div>
+                                        }
+
+                                    </div>
+
+                                }
                             </div>
                         </div>
                     </div>
@@ -115,6 +141,19 @@
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="city" type="text">
+
+                                @if (shippingAddressCity.invalid && (shippingAddressCity.dirty || shippingAddressCity.touched)) {
+
+                                    <div class="alert alert-danger mt-1">
+
+                                        @if (shippingAddressCity!.errors!['required'] || shippingAddressCity!.errors!['notOnlyWhiteSpace']) {
+                                            <div>City is required</div>
+                                        }
+
+                                    </div>
+
+                                }
+
                             </div>
                         </div>
                     </div>
@@ -128,6 +167,18 @@
                                         {{ state.name }}
                                     </option>
                                 </select>
+
+                                @if (shippingAddressState.invalid && (shippingAddressState.dirty || shippingAddressState.touched)) {
+
+                                    <div class="alert alert-danger mt-1">
+
+                                        @if (shippingAddressState!.errors!['required']) {
+                                            <div>State is required</div>
+                                        }
+
+                                    </div>
+
+                                }
                             </div>
                         </div>
                     </div>
@@ -137,6 +188,19 @@
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="zipCode" type="text">
+
+                                @if (shippingAddressZipCode.invalid && (shippingAddressZipCode.dirty || shippingAddressZipCode.touched)) {
+
+                                    <div class="alert alert-danger mt-1">
+
+                                        @if (shippingAddressZipCode!.errors!['required'] || shippingAddressZipCode!.errors!['notOnlyWhiteSpace']) {
+                                            <div>Zip Code is required</div>
+                                        }
+
+                                    </div>
+
+                                }
+
                             </div>
                         </div>
                     </div>
