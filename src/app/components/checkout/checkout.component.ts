@@ -5,6 +5,7 @@ import { ShopFormService } from '../../services/shop-form.service';
 import { Country } from '../../common/country';
 import { State } from '../../common/state';
 import { ShopValidators } from '../../validators/shop-validators';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-checkout',
@@ -18,6 +19,11 @@ export class CheckoutComponent {
 
   totalPrice: number = 0;
   totalQuantity: number = 0;
+  shipping: number = 0;
+  finalPrice: number = 0;
+  neededForFreeShipping: number = 0;
+  neededForFreeShippingString: string = "";
+  finalPriceString: string = "";
 
   creditCardYears: number[] = [];
   creditCardMonths: number[] = [];
@@ -28,10 +34,13 @@ export class CheckoutComponent {
   billingAddressStates: State[] = [];
 
   constructor(private formBuilder: FormBuilder,
-              private shopFormService: ShopFormService
+              private shopFormService: ShopFormService,
+              private cartService: CartService
   ) {}
 
   ngOnInit(): void {
+
+    this.reviewCartDetails();
 
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
@@ -143,6 +152,32 @@ export class CheckoutComponent {
         this.countries = data;
       }
     );
+
+  }
+  
+  reviewCartDetails() {
+    
+    // subscribe to cartService.totalQuantity
+    this.cartService.totalQuantity.subscribe(
+      totalQuantity => this.totalQuantity = totalQuantity
+    );
+
+    // subscribe to cartService.totalPrice
+    this.cartService.totalPrice.subscribe(
+      totalPrice => this.totalPrice = totalPrice    
+    );
+
+    if (this.totalPrice < 100) {
+      this.shipping = 19.99;
+      this.neededForFreeShipping = 100 - this.totalPrice;
+      this.neededForFreeShippingString = this.neededForFreeShipping.toFixed(2);
+    }
+    else {
+      this.shipping = 0.00;
+    }
+
+    this.finalPrice = this.totalPrice + this.shipping;
+    this.finalPriceString = this.finalPrice.toFixed(2);
 
   }
 

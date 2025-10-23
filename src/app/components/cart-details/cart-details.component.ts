@@ -16,11 +16,33 @@ export class CartDetailsComponent {
   cartItems: CartItem[] = [];
   totalPrice: number = 0;
   totalQuantity: number = 0;
+  shipping: number = 0;
+  finalPrice: number = 0;
+  neededForFreeShipping: number = 0;
+  neededForFreeShippingString: string = "";
+  finalPriceString: string = "";
 
   constructor(private cartService: CartService) {}
 
   ngOnInit() {
     this.listCartDetails();
+    this.shippingNeeded();
+  }
+
+  shippingNeeded() {
+    
+    if (this.totalPrice < 100) {
+      this.shipping = 19.99;
+      this.neededForFreeShipping = 100 - this.totalPrice;
+      this.neededForFreeShippingString =  this.neededForFreeShipping.toFixed(2);
+    }
+    else {
+      this.shipping = 0.00;
+    }
+
+    this.finalPrice = this.totalPrice + this.shipping;
+    this.finalPriceString = this.finalPrice.toFixed(2);
+    
   }
 
   listCartDetails() {
