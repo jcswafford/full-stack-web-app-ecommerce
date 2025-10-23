@@ -1,4 +1,4 @@
-import { CurrencyPipe, NgFor } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators, ɵInternalFormsSharedModule } from '@angular/forms';
 import { ShopFormService } from '../../services/shop-form.service';
@@ -8,7 +8,7 @@ import { ShopValidators } from '../../validators/shop-validators';
 
 @Component({
   selector: 'app-checkout',
-  imports: [ɵInternalFormsSharedModule, ReactiveFormsModule, CurrencyPipe, NgFor],
+  imports: [ɵInternalFormsSharedModule, ReactiveFormsModule, CurrencyPipe],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.css'
 })
@@ -94,10 +94,23 @@ export class CheckoutComponent {
         )
       }),
       creditCard: this.formBuilder.group({
-        cardType: [''],
-        nameOnCard: [''],
-        cardNumber: [''],
-        securityCode: [''],
+        cardType: new FormControl('', 
+          [Validators.required]),
+        nameOnCard: new FormControl('', 
+          [Validators.required, 
+          Validators.minLength(2), 
+          ShopValidators.notOnlyWhitespace]
+        ),
+        cardNumber: new FormControl('', 
+          [Validators.required,
+          Validators.pattern('^[0-9]+$'),
+          Validators.minLength(13),
+          Validators.maxLength(19),
+          ShopValidators.luhnCheck]
+        ),
+        securityCode: new FormControl('', 
+          [Validators.required, 
+          Validators.pattern('^[0-9]{3}')]),
         expirationMonth: [''],
         expirationYear: ['']
       })
@@ -148,6 +161,11 @@ export class CheckoutComponent {
   get billingAddressCountry() {return this.checkoutFormGroup.get('billingAddress.country');}
   get billingAddressState() {return this.checkoutFormGroup.get('billingAddress.state');}
   get billingAddressZipCode() {return this.checkoutFormGroup.get('billingAddress.zipCode');}
+
+  get creditCardType() {return this.checkoutFormGroup.get('creditCard.cardType');}
+  get creditCardNameOnCard() {return this.checkoutFormGroup.get('creditCard.nameOnCard');}
+  get creditCardNumber() {return this.checkoutFormGroup.get('creditCard.cardNumber');}
+  get creditCardSecurityCode() {return this.checkoutFormGroup.get('creditCard.securityCode');}
 
   onSubmit() {
 
